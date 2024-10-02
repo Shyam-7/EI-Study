@@ -1,0 +1,16 @@
+package com.ei.virtualclassroom;
+
+class AddStudentCommand implements Command {
+    private String studentId;
+    private String className;
+
+    public AddStudentCommand(String studentId, String className) {
+        this.studentId = studentId;
+        this.className = className;
+    }
+
+    @Override
+    public void execute() {
+        VirtualClassroomManager.getInstance().addStudent(studentId, className);
+    }
+}

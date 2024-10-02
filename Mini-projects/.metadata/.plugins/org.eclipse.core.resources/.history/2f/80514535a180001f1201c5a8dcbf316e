@@ -1,0 +1,5 @@
+package com.ei.virtualclassroom;
+
+public class ScheduleAssignmentCommand {
+
+}

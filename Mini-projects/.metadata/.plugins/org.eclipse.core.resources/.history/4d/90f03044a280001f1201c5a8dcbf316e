@@ -1,0 +1,76 @@
+package com.ei.virtualclassroom;
+
+import java.util.*;
+import java.util.logging.Logger;
+
+class VirtualClassroomManager {
+    private static VirtualClassroomManager instance;
+    private Map<String, Classroom> classrooms;
+    private static final Logger LOGGER = Logger.getLogger(VirtualClassroomManager.class.getName());
+
+    private VirtualClassroomManager() {
+        classrooms = new HashMap<>();
+    }
+
+    public static VirtualClassroomManager getInstance() {
+        if (instance == null) {
+            instance = new VirtualClassroomManager();
+        }
+        return instance;
+    }
+
+    public void addClassroom(String name) {
+        if (classrooms.containsKey(name)) {
+            LOGGER.warning("Classroom " + name + " already exists.");
+            return;
+        }
+        classrooms.put(name, new Classroom(name));
+        LOGGER.info("Classroom " + name + " has been created.");
+    }
+
+    public void addStudent(String studentId, String className) {
+        Classroom classroom = classrooms.get(className);
+        if (classroom == null) {
+            LOGGER.warning("Classroom " + className + " does not exist.");
+            return;
+        }
+        classroom.addStudent(new Student(studentId));
+        LOGGER.info("Student " + studentId + " has been enrolled in " + className + ".");
+    }
+
+    public void scheduleAssignment(String className, String assignmentDetails) {
+        Classroom classroom = classrooms.get(className);
+        if (classroom == null) {
+            LOGGER.warning("Classroom " + className + " does not exist.");
+            return;
+        }
+        classroom.addAssignment(new Assignment(assignmentDetails));
+        LOGGER.info("Assignment for " + className + " has been scheduled.");
+    }
+
+    public void submitAssignment(String studentId, String className, String assignmentDetails) {
+        Classroom classroom = classrooms.get(className);
+        if (classroom == null) {
+            LOGGER.warning("Classroom " + className + " does not exist.");
+            return;
+        }
+        if (classroom.submitAssignment(studentId, assignmentDetails)) {
+            LOGGER.info("Assignment submitted by Student " + studentId + " in " + className + ".");
+        } else {
+            LOGGER.warning("Failed to submit assignment for Student " + studentId + " in " + className + ".");
+        }
+    }
+
+    public void listClassrooms() {
+        LOGGER.info("Classrooms: " + String.join(", ", classrooms.keySet()));
+    }
+
+    public void listStudentsInClassroom(String className) {
+        Classroom classroom = classrooms.get(className);
+        if (classroom == null) {
+            LOGGER.warning("Classroom " + className + " does not exist.");
+            return;
+        }
+        LOGGER.info("Students in " + className + ": " + classroom.listStudents());
+    }
+}

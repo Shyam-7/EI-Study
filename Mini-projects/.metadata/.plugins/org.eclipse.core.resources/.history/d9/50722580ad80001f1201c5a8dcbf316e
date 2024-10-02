@@ -1,0 +1,35 @@
+package com.designpatterns.creational1;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class ConfigurationManager {
+    private static ConfigurationManager instance;
+    private Map<String, String> configurations;
+
+    private ConfigurationManager() {
+        configurations = new HashMap<>();
+    }
+
+    public static ConfigurationManager getInstance() {
+        if (instance == null) {
+            instance = new ConfigurationManager();
+        }
+        return instance;
+    }
+
+    public void setConfiguration(String key, String value) {
+        configurations.put(key, value);
+    }
+
+    public String getConfiguration(String key) {
+        return configurations.get(key);
+    }
+
+    public void displayConfigurations() {
+        System.out.println("Current Configurations:");
+        for (Map.Entry<String, String> entry : configurations.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+    }
+}

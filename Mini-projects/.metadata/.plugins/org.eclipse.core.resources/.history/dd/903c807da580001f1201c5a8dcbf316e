@@ -1,0 +1,67 @@
+package com.ei.virtualclassroom;
+
+import java.util.*;
+
+public class VirtualClassroomApplication {
+    private static final VirtualClassroomManager manager = VirtualClassroomManager.getInstance();
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nEnter a command (or 'exit' to quit):");
+            String input = scanner.nextLine().trim();
+
+            if (input.equalsIgnoreCase("exit")) {
+                break;
+            }
+
+            try {
+                Command command = parseCommand(input);
+                if (command != null) {
+                    command.execute();
+                } else {
+                    System.out.println("Invalid command. Please try again.");
+                }
+            } catch (Exception e) {
+                System.out.println("An error occurred: " + e.getMessage());
+                System.out.println("Please try again.");
+            }
+        }
+
+        scanner.close();
+    }
+    
+    private static boolean isValidInput(String[] parts, int expectedLength) {
+        if (parts.length < expectedLength) {
+            System.out.println("Invalid input. Expected at least " + expectedLength + " parameters.");
+            return false;
+        }
+        return true;
+    }
+    
+    private static Command parseCommand(String input) {
+        String[] parts = input.split(" ");
+        if (parts.length < 1) {
+            return null;
+        }
+
+        switch (parts[0]) {
+            case "add_classroom":
+                if (!isValidInput(parts, 2)) return null;
+                return new AddClassroomCommand(parts[1]);
+            case "add_student":
+                if (!isValidInput(parts, 3)) return null;
+                return new AddStudentCommand(parts[1], parts[2]);
+            case "schedule_assignment":
+                if (!isValidInput(parts, 3)) return null;
+                return new ScheduleAssignmentCommand(parts[1], String.join(" ", Arrays.copyOfRange(parts, 2, parts.length)));
+            case "submit_assignment":
+                if (!isValidInput(parts, 4)) return null;
+                return new SubmitAssignmentCommand(parts[1], parts[2], String.join(" ", Arrays.copyOfRange(parts, 3, parts.length)));
+            default:
+                System.out.println("Unknown command: " + parts[0]);
+                return null;
+        }
+    }
+}

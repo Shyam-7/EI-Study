@@ -1,0 +1,4 @@
+INDEX VERSION 1.132+G:\EI Study Assesments\Mini-projects\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index
+43342501.index
+1007701104.index

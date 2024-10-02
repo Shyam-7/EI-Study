@@ -1,0 +1,5 @@
+package com.designpatterns.structural1;
+
+public class LegacyRectangle {
+
+}

@@ -1,0 +1,54 @@
+package com.designpatterns.creational2;
+
+abstract class Document {
+    abstract void open();
+    abstract void save();
+}
+
+class PDFDocument extends Document {
+    @Override
+    void open() {
+        System.out.println("Opening PDF document");
+    }
+
+    @Override
+    void save() {
+        System.out.println("Saving PDF document");
+    }
+}
+
+class WordDocument extends Document {
+    @Override
+    void open() {
+        System.out.println("Opening Word document");
+    }
+
+    @Override
+    void save() {
+        System.out.println("Saving Word document");
+    }
+}
+
+abstract class DocumentCreator {
+    abstract Document createDocument();
+
+    public void editDocument() {
+        Document doc = createDocument();
+        doc.open();
+        doc.save();
+    }
+}
+
+class PDFCreator extends DocumentCreator {
+    @Override
+    Document createDocument() {
+        return new PDFDocument();
+    }
+}
+
+class WordCreator extends DocumentCreator {
+    @Override
+    Document createDocument() {
+        return new WordDocument();
+    }
+}

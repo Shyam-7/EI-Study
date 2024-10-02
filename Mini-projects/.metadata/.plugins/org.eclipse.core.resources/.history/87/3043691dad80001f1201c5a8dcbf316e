@@ -1,0 +1,67 @@
+public class DesignPatternsDemo {
+
+    public static void main(String[] args) {
+        demonstrateObserver();
+        demonstrateStrategy();
+        demonstrateSingleton();
+        demonstrateFactoryMethod();
+        demonstrateAdapter();
+        demonstrateDecorator();
+    }
+
+    private static void demonstrateObserver() {
+        System.out.println("\n--- Observer Pattern Demonstration ---");
+        WeatherStation weatherStation = new WeatherStation();
+        WeatherDisplay display = new WeatherDisplay();
+        weatherStation.addObserver(display);
+        weatherStation.setMeasurements(25.5f, 65.0f, 1013.1f);
+    }
+
+    private static void demonstrateStrategy() {
+        System.out.println("\n--- Strategy Pattern Demonstration ---");
+        SortContext context = new SortContext();
+        int[] array = {64, 34, 25, 12, 22, 11, 90};
+        
+        context.setStrategy(new BubbleSort());
+        context.sortArray(array.clone());
+        
+        context.setStrategy(new QuickSort());
+        context.sortArray(array.clone());
+    }
+
+    private static void demonstrateSingleton() {
+        System.out.println("\n--- Singleton Pattern Demonstration ---");
+        ConfigurationManager config = ConfigurationManager.getInstance();
+        config.setConfiguration("theme", "dark");
+        config.setConfiguration("font-size", "14px");
+        config.displayConfigurations();
+    }
+
+    private static void demonstrateFactoryMethod() {
+        System.out.println("\n--- Factory Method Pattern Demonstration ---");
+        DocumentCreator pdfCreator = new PDFCreator();
+        DocumentCreator wordCreator = new WordCreator();
+        
+        pdfCreator.editDocument();
+        wordCreator.editDocument();
+    }
+
+    private static void demonstrateAdapter() {
+        System.out.println("\n--- Adapter Pattern Demonstration ---");
+        LegacyRectangle legacyRectangle = new LegacyRectangle();
+        Shape rectangleAdapter = new RectangleAdapter(legacyRectangle);
+        rectangleAdapter.draw(10, 20, 30, 40);
+    }
+
+    private static void demonstrateDecorator() {
+        System.out.println("\n--- Decorator Pattern Demonstration ---");
+        Coffee simpleCoffee = new SimpleCoffee();
+        System.out.println(simpleCoffee.getDescription() + " Cost: $" + simpleCoffee.getCost());
+
+        Coffee milkCoffee = new Milk(simpleCoffee);
+        System.out.println(milkCoffee.getDescription() + " Cost: $" + milkCoffee.getCost());
+
+        Coffee sugarMilkCoffee = new Sugar(new Milk(simpleCoffee));
+        System.out.println(sugarMilkCoffee.getDescription() + " Cost: $" + sugarMilkCoffee.getCost());
+    }
+}

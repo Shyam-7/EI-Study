@@ -1,0 +1,5 @@
+package com.designpatterns.creational1;
+
+public class ConfigurationManager {
+
+}
